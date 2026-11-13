@@ -1,7 +1,7 @@
 # Informe técnico del agente LLM con RAG y herramientas
 
 **Proyecto:** Copiloto de movilidad de Medellín  
-**Responsables de la entrega y revisión documental:** Isabella Cadavid Posada y Wendy  
+**Responsables de la entrega y revisión documental:** Isabella Cadavid Posada y Wendy Vanessa Atehortua 
 **Componente:** Agente conversacional y recuperación documental
 
 ## 1. Objetivo
