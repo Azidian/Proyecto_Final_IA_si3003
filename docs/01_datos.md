@@ -1,23 +1,159 @@
-# Problema datos y preparación
+# Informe técnico de datos viales y corpus documental
 
-El proyecto propone un copiloto académico de movilidad para un extracto pequeño del centro de Medellín. El objetivo del MVP es comparar rutas de menor distancia calculadas con A* y Dijkstra implementados por el equipo, y complementar la consulta con un asistente basado en documentos oficiales del Metro. Esta entrega cubre la preparación de datos y del corpus; todavía no presenta resultados de los algoritmos ni del agente.
+**Proyecto:** Copiloto de movilidad de Medellín  
+**Responsable del componente:** Isabella Cadavid Posada  
+**Componente:** Preparación de datos viales y corpus documental
 
-## Fuente y alcance
+## 1. Contexto y objetivo
 
-La red se obtuvo de OpenStreetMap mediante su API de mapas, con bounding box `-75.574,6.247,-75.566,6.255` en orden oeste, sur, este, norte. Se conservó el archivo OSM XML original y un registro de URL, fecha, tamaño y SHA-256. La copia preparada contiene **696 nodos y 858 aristas dirigidas**. Los datos corresponden a vías reales de Colombia; se atribuyen a OpenStreetMap contributors bajo ODbL 1.0.
+El proyecto desarrolla un copiloto académico de movilidad para una zona del centro de Medellín. Integra la búsqueda de rutas de menor distancia mediante A* y Dijkstra con un asistente que consulta documentos oficiales del Metro de Medellín.
 
-## Preparación y controles
+Este informe describe la obtención, transformación y validación de los datos geográficos, la construcción del grafo dirigido y la preparación del corpus documental. Estos recursos sirven de entrada a los componentes de enrutamiento, recuperación documental e interfaz.
 
-Se seleccionaron vías de categorías admitidas para un modelo simplificado de automóvil y se excluyeron accesos explícitamente restringidos según la jerarquía de etiquetas y sentidos reversibles o desconocidos. Se mantuvieron únicamente segmentos con ambos nodos dentro del extracto, se eliminaron autociclos y nodos sin segmentos conservados, y se respetaron `oneway=yes`, `oneway=-1` y rotondas. Los cruces geométricos solo conectan cuando comparten id de nodo OSM. Las vías bidireccionales generan aristas en ambos sentidos.
+## 2. Fuente y cobertura geográfica
 
-Cada costo se calculó con haversine entre puntos consecutivos, en metros y sin redondear durante el almacenamiento. La arquitectura separa dominio, casos de uso y adaptadores. `load_graph()` lee JSON locales sin conexión. Se verificaron identificadores, extremos existentes, coordenadas y costos finitos no negativos. También se eligieron 10 pares distintos con alcanzabilidad dirigida por BFS para la evaluación posterior; el BFS no calcula rutas óptimas.
+La red vial se obtuvo de OpenStreetMap mediante su API de mapas. OpenStreetMap es una fuente abierta colaborativa; los datos seleccionados corresponden a vías reales ubicadas en Medellín, Colombia.
 
-El EDA detectó dos componentes débilmente conexas de 694 y 2 nodos, y 14 nodos sin salidas. Estos hechos se conservaron como limitaciones de la red; no se inventaron conexiones para unirlos. La longitud media de arista dirigida es aproximadamente 18.96 m, porque se conservan nodos de geometría y no solo intersecciones. Los conteos por tipo de vía y las verificaciones están en `results/data_validation.json` y `results/eda.json`.
+Se delimitó una zona pequeña del centro de la ciudad mediante las siguientes coordenadas WGS84:
 
-## Corpus y limitaciones
+| Límite | Coordenada |
+|---|---:|
+| Oeste | -75.574 |
+| Sur | 6.247 |
+| Este | -75.566 |
+| Norte | 6.255 |
 
-Se descargaron tres PDF oficiales del Metro y una captura de su página de usuarios, con 9 287 palabras extraídas y 23 registros por página o documento web. Se guardaron los originales, texto, URL, título, página, notas de versión y hashes. Estos datos se entregan a Oriana para fragmentación, embeddings y recuperación. La preparación del corpus no constituye aún un sistema RAG.
+La consulta utiliza el orden oeste, sur, este y norte:
 
-Los documentos históricos pueden diferir de la información posterior; el agente deberá distinguir versión y fecha y no afirmar vigencia que no pueda verificar. La red es vial, no una red multimodal del Metro; no se modelan tráfico, tiempos, tarifas, giros prohibidos, barreras o todas las restricciones condicionales. El óptimo futuro será dentro de este extracto y para el costo geométrico definido. No se presenta como navegación operativa.
+`-75.574,6.247,-75.566,6.255`
 
-Fuentes: https://www.openstreetmap.org/copyright y las cuatro URLs oficiales registradas en `corpus/sources.csv`. Captura registrada el 9 de noviembre de 2026, hora de Colombia.
+Se conservó el archivo original en formato OSM XML y un registro de procedencia con URL, fecha de captura, tamaño y hash SHA-256. Esta información permite rastrear el origen del archivo y comprobar su integridad.
+
+Los datos geográficos se atribuyen a **OpenStreetMap contributors** bajo la licencia **Open Database License —ODbL 1.0—**.
+
+## 3. Preparación de la red vial
+
+El procesamiento transformó el extracto geográfico en un grafo dirigido y ponderado. Cada nodo representa un punto con coordenadas y cada arista representa un segmento vial con un sentido y una distancia.
+
+Se aplicaron los siguientes criterios:
+
+- Seleccionar categorías de vías admitidas para un modelo simplificado de automóvil.
+- Excluir accesos explícitamente restringidos según la jerarquía de etiquetas utilizada.
+- Excluir vías con sentidos reversibles, alternantes o valores de sentido no interpretados.
+- Conservar únicamente segmentos cuyos dos extremos estén dentro del área delimitada.
+- Eliminar autociclos y descartar nodos que no participen en los segmentos conservados.
+- Interpretar las etiquetas de sentido de circulación, incluyendo `oneway=yes`, `oneway=-1` y las rotondas.
+- Generar aristas en ambos sentidos para las vías bidireccionales.
+- Mantener los identificadores de las aristas paralelas y su relación con la vía original.
+
+Los cruces geométricos se conectan únicamente cuando las vías comparten un identificador de nodo de OpenStreetMap. La proximidad visual entre dos segmentos no se considera suficiente para establecer una conexión.
+
+La red procesada contiene:
+
+| Elemento | Cantidad |
+|---|---:|
+| Nodos | 696 |
+| Aristas dirigidas | 858 |
+| Pares de origen y destino para evaluación | 10 |
+
+## 4. Cálculo de distancias y representación
+
+El costo de cada arista corresponde a la distancia geográfica entre dos nodos consecutivos, calculada mediante la fórmula haversine.
+
+Las distancias se almacenan en metros, sin redondearlas durante su preparación. El costo de una ruta corresponde a la suma de las distancias de sus aristas.
+
+Se conservaron los nodos de geometría de las vías, no solamente las intersecciones. Por esta razón, una calle puede estar representada por varios segmentos cortos.
+
+Los datos procesados se organizan en:
+
+| Archivo | Contenido |
+|---|---|
+| `data/processed/nodes.json` | Identificadores y coordenadas de los nodos |
+| `data/processed/edges.json` | Aristas dirigidas, distancias y atributos de las vías |
+| `data/processed/metadata.json` | Procedencia, cobertura y metadatos del procesamiento |
+| `data/test_pairs.json` | Pares de origen y destino para evaluación |
+
+La función pública `load_graph()` carga estos archivos locales sin realizar solicitudes HTTP. El grafo ofrece acceso a los nodos, las aristas y las listas de adyacencia que utilizan los algoritmos de búsqueda.
+
+La arquitectura separa las entidades de dominio, los casos de uso y los adaptadores de infraestructura. Esta organización permite modificar la obtención o el almacenamiento de los datos sin cambiar las reglas del grafo.
+
+## 5. Controles de calidad y pares de prueba
+
+Se comprobaron los siguientes aspectos:
+
+- Identificadores de nodos y aristas válidos y sin duplicados.
+- Existencia de los nodos de origen y destino de cada arista.
+- Coordenadas dentro de rangos geográficos válidos.
+- Distancias finitas y no negativas.
+- Coherencia entre las distancias almacenadas y su cálculo geográfico.
+- Correspondencia entre los archivos originales y sus hashes registrados.
+
+También se seleccionaron diez pares distintos de origen y destino. Su alcanzabilidad se verificó mediante BFS, respetando la dirección de las aristas.
+
+Esta búsqueda comprueba que exista un recorrido para cada par seleccionado; no calcula la ruta de menor distancia ni sustituye las implementaciones de A* y Dijkstra.
+
+Los pares quedan almacenados para que ambos algoritmos se evalúen sobre los mismos casos y la comparación sea reproducible.
+
+## 6. Análisis exploratorio
+
+El análisis descriptivo identificó:
+
+| Indicador | Resultado |
+|---|---:|
+| Componentes débilmente conexas | 2 |
+| Nodos de la componente mayor | 694 |
+| Nodos de la componente menor | 2 |
+| Nodos sin aristas salientes | 14 |
+| Longitud media de arista dirigida | Aproximadamente 18,96 m |
+
+Una componente débilmente conexa agrupa nodos conectados al ignorar temporalmente la dirección de las aristas. Esto no garantiza que todos sus nodos puedan alcanzarse entre sí respetando los sentidos de circulación.
+
+Se conservaron las componentes y los nodos sin salida como características de la red extraída. No se añadieron conexiones artificiales para unirlos.
+
+Las estadísticas y verificaciones se encuentran en:
+
+- `results/data_validation.json`
+- `results/eda.json`
+
+## 7. Preparación del corpus documental
+
+El corpus se obtuvo del sitio oficial del Metro de Medellín y contiene:
+
+1. Reglamento del Usuario.
+2. Condiciones de uso de la funcionalidad Bici.
+3. Documento de convivencia para el ingreso de bicicletas.
+4. Captura de la página de información y servicios para usuarios.
+
+Se conservaron los tres PDF y la página HTML originales, junto con sus textos extraídos y registros de procedencia.
+
+La preparación produjo:
+
+| Elemento | Cantidad |
+|---|---:|
+| Documentos | 4 |
+| Registros por página PDF o documento web | 23 |
+| Palabras extraídas | 9.287 |
+
+Cada registro documental incluye el identificador del documento, título, URL, texto, página cuando corresponde, fecha de captura y nota de versión.
+
+Los archivos se organizan así:
+
+| Ruta | Contenido |
+|---|---|
+| `corpus/raw/` | Documentos originales |
+| `corpus/text/` | Textos extraídos |
+| `corpus/sources.csv` | Fuentes y registros de consulta |
+| `corpus/manifest.json` | Metadatos, hashes y conteos |
+| `corpus/documents.jsonl` | Registros de texto con información para citas |
+
+Estos recursos sirven de entrada al componente de fragmentación, indexación y recuperación documental. La preparación del corpus es una etapa del sistema RAG, no la totalidad de su implementación.
+
+## 8. Verificación y reproducibilidad
+
+La preparación y validación local se ejecuta mediante:
+
+```bash
+python -m scripts.prepare_data
+python -m scripts.prepare_corpus
+python -m scripts.describe_data
+python -m scripts.validate
