@@ -25,4 +25,4 @@ El BFS incluido solo verifica alcanzabilidad y genera casos; no calcula la ruta 
 
 Errores de datos se expresan como `DataValidationError`; errores HTTP como `DownloadError`. Los comandos terminan con error si no pueden preparar datos válidos. Nunca sustituyen una descarga fallida por datos ficticios.
 
-Para próximos bloques: Wendy puede añadir `domain/routing.py` o `src/routing.py` como fachada y mantener el resultado definido en CONTRATOS. Oriana puede añadir adaptadores LLM y RAG sin alterar las entidades. Ana consume las fachadas desde Streamlit.
+Las capas de dominio permiten añadir fachadas de rutas (`src/routing.py`), adaptadores LLM y RAG, y la interfaz Streamlit sin alterar las entidades.
