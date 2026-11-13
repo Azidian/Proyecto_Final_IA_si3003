@@ -1,4 +1,4 @@
-"""Pruebas de las herramientas del agent (Bloque 3 - Oriana): resultados reales, sin LLM."""
+"""Pruebas de las herramientas del agent (Bloque 3): resultados reales, sin LLM."""
 
 from __future__ import annotations
 

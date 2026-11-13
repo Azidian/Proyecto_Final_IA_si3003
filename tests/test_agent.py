@@ -1,4 +1,4 @@
-"""Pruebas del agent (Bloque 3 - Oriana) con un modelo simulado: sin red ni claves.
+"""Pruebas del agent (Bloque 3) con un modelo simulado: sin red ni claves.
 
 El modelo simulado devuelve respuestas programadas; las herramientas y el RAG son los reales.
 Estas pruebas verifican el loop, las citas, el límite de iteraciones y el manejo de errores,

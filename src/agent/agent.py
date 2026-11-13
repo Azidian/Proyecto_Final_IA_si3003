@@ -1,4 +1,4 @@
-"""agent LLM con herramientas y RAG (Bloque 3 - Oriana).
+"""Agente LLM con herramientas y RAG (Bloque 3).
 
 Contrato acordado:
     ask(message, history) -> {"answer": str, "sources": [...], "tool_trace": [...]}

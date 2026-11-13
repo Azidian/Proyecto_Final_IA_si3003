@@ -1,4 +1,4 @@
-"""Bloque 3 (Oriana): agente LLM con RAG y herramientas.
+"""Bloque 3: agente LLM con RAG y herramientas.
 
 Uso: ``from src.agente import ask``.
 """

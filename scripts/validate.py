@@ -31,7 +31,7 @@ def validate() -> dict:
     records = [json.loads(line) for line in (PROJECT_ROOT / "corpus/documents.jsonl").read_text(encoding="utf-8").splitlines()]
     if not records or any(not row["text"].strip() or not row["url"].startswith("https://") for row in records):
         raise ValueError("Registros del corpus incompletos.")
-    # Comparar los registros consumibles por Oriana con la extracción individual.
+    # Comparar los registros consumibles por el agente con la extracción individual.
     for doc in manifest:
         selected = [row for row in records if row["document_id"] == doc["id"]]
         if len(selected) != doc["nonempty_pages"] or any(row["url"] != doc["url"] for row in selected):

@@ -59,8 +59,8 @@ Las dependencias y sus versiones se encuentran en `requirements.txt`.
 ### Clonar el repositorio
 
 ```bash
-git clone https://github.com/Azidian/Proyecto_Final_si3003.git
-cd Proyecto_Final_si3003
+git clone https://github.com/Azidian/Proyecto_Final_IA_si3003.git
+cd Proyecto_Final_IA_si3003
 ```
 
 Los siguientes comandos deben ejecutarse desde la carpeta que contiene `README.md`, `requirements.txt`, `src/` y `scripts/`.

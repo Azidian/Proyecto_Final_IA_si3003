@@ -14,7 +14,7 @@ td:first-child, th:first-child { text-align: left; } td.l { text-align: left; }
 </style></head><body>
 
 <h1>Copiloto de movilidad de Medellín: A*, consultas y dashboard</h1>
-<div class="sub">SI3003, EAFIT 2026-1 · Repositorio: github.com/Azidian/Proyecto_Final_si3003</div>
+<div class="sub">SI3003, EAFIT 2026-1 · Repositorio: github.com/Azidian/Proyecto_Final_IA_si3003</div>
 <div class="aviso"><b>Aviso:</b> herramienta académica. Las rutas se calculan solo por distancia y el asistente puede equivocarse; no constituye consejo de movilidad, seguridad, legal ni médico. Verifique la información oficial del Metro de Medellín.</div>
 
 <h2>1. Problema y alcance</h2>
@@ -43,7 +43,7 @@ td:first-child, th:first-child { text-align: left; } td.l { text-align: left; }
 <p><b>Lectura de los fallos.</b> En q01 y q03 el asistente dio la distancia correcta (1 069.82 m y 1 336,34 m, iguales a las esperadas) pero con espacio como separador de miles o coma decimal, formatos que el verificador automático no reconoce; son fallos del verificador y no se corrigieron en el CSV para no alterar el resultado medido. El fallo real es q08: dio los nodos expandidos correctos (307 frente a 587) pero no llamó a <code>plan_route</code>. Con una sola corrida y 12 preguntas, estas tasas son indicativas, no estadísticamente concluyentes. En las tres preguntas de error o ausencia el asistente no inventó distancias, tarifas ni minutos.</p>
 
 <h2>5. Interfaz y reproducción</h2>
-<p>El dashboard (<code>app.py</code>, Streamlit, una pantalla) permite elegir un par de prueba o nodos libres y el algoritmo (A*, Dijkstra o ambos); muestra el mapa de la ruta (folium sobre OpenStreetMap), la tabla de distancia, nodos expandidos y tiempo, un gráfico comparativo del par elegido y el resumen de los 10 pares, y un chat con el asistente que muestra las fuentes citadas y la traza de herramientas. Los errores (nodo inválido, sin ruta, clave ausente, proveedor caído) se muestran con mensajes comprensibles y el resto de la aplicación sigue funcionando. Para reproducir: <code>python -m venv .venv</code>, <code>pip install -r requirements.txt</code>, copiar <code>.env.example</code> a <code>.env</code> con las credenciales necesarias configuradas, y <code>streamlit run app.py</code>; datos, corpus e índice vienen incluidos. La integración se verificó con <code>scripts/check_contracts.py</code> y 68 pruebas automáticas (detalle en <code>docs/verificacion_final.md</code>).</p>
+<p>El dashboard (<code>app.py</code>, Streamlit, una pantalla) permite elegir un par de prueba o nodos libres y el algoritmo (A*, Dijkstra o ambos); muestra el mapa de la ruta (folium sobre OpenStreetMap), la tabla de distancia, nodos expandidos y tiempo, un gráfico comparativo del par elegido y el resumen de los 10 pares, y un chat con el asistente que muestra las fuentes citadas y la traza de herramientas. Los errores (nodo inválido, sin ruta, clave ausente, proveedor caído) se muestran con mensajes comprensibles y el resto de la aplicación sigue funcionando. Para reproducir: <code>python -m venv .venv</code>, <code>pip install -r requirements.txt</code>, copiar <code>.env.example</code> a <code>.env</code> con las credenciales necesarias configuradas, y <code>streamlit run app.py</code>; datos, corpus e índice vienen incluidos. La integración se verificó con <code>scripts/check_contracts.py</code> y 68 pruebas automáticas.</p>
 
 <h2>6. Limitaciones</h2>
 <ul>

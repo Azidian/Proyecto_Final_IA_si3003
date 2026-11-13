@@ -1,6 +1,6 @@
 # Copiloto de movilidad de Medellín: A\*, consultas y dashboard
 
-*SI3003, EAFIT 2026-1 · Repositorio: github.com/Azidian/Azidian-Proyecto_Final_IA_si3003*
+*SI3003, EAFIT 2026-1 · Repositorio: github.com/Azidian/Proyecto_Final_IA_si3003*
 
 > **Aviso:** herramienta académica. Las rutas se calculan solo por distancia y el asistente puede equivocarse; no constituye consejo de movilidad, seguridad, legal ni médico. Verifique la información oficial del Metro de Medellín.
 

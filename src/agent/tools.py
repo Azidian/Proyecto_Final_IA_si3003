@@ -1,4 +1,4 @@
-"""Herramientas que el agent LLM puede invocar (Bloque 3 - Oriana).
+"""Herramientas que el agent LLM puede invocar (Bloque 3).
 
 Todas calculan resultados reales sobre el código de los bloques anteriores:
 - plan_route         -> src.routing.plan_route (A* / Dijkstra propios, Bloque 2)

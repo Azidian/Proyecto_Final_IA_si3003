@@ -1,4 +1,4 @@
-"""Pruebas del RAG local (Bloque 3 - Oriana). Usan el backend hashing: sin red ni descargas."""
+"""Pruebas del RAG local (Bloque 3). Usan el backend hashing: sin red ni descargas."""
 
 from __future__ import annotations
 

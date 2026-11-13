@@ -1,4 +1,4 @@
-"""RAG local para el Bloque 3 (Oriana): fragmentación, embeddings, índice y búsqueda.
+"""RAG local para el Bloque 3: fragmentación, embeddings, índice y búsqueda.
 
 Flujo:
     corpus/documents.jsonl --chunk--> fragmentos --embed--> data/index/ (embeddings.npy + index.json)

@@ -1,4 +1,4 @@
-"""Pruebas de las preguntas fijas y de la calificación automática (Bloque 3 - Oriana)."""
+"""Pruebas de las preguntas fijas y de la calificación automática (Bloque 3)."""
 
 from __future__ import annotations
 

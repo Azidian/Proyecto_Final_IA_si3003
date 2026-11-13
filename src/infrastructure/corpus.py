@@ -50,8 +50,8 @@ def prepare_corpus(root: Path) -> dict:
                             "url": source["url"], "page_number": number, "text": text,
                             "retrieved_at_utc": sidecar["retrieved_at_utc"],
                             "version_note": source["version_note"]})
-        manifest.append({**source, **sidecar, "raw_path": str(raw.relative_to(root)),
-                         "text_path": str(text_path.relative_to(root)),
+        manifest.append({**source, **sidecar, "raw_path": raw.relative_to(root).as_posix(),
+                         "text_path": text_path.relative_to(root).as_posix(),
                          "text_sha256": file_hash(text_path), "nonempty_pages": len(pages),
                          "word_count": sum(len(text.split()) for _, text in pages)})
     target = root / "corpus/documents.jsonl"
