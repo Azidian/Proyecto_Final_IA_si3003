@@ -13,6 +13,10 @@ pequeño del centro de Medellín:
 > emisiones) y el asistente puede equivocarse. No constituye consejo de movilidad, seguridad, legal ni médico;
 > consulta siempre la información oficial del Metro de Medellín.
 
+## Video sustentación
+
+En el siguiente enlace encontrará la funcionalidad y un poco de cómo funciona nuestro proyecto: [Video Funcionalidad](https://youtu.be/T2dBXgtI71Q)
+
 ## Inicio rápido
 
 Requiere Python 3.10 o superior. Desde la raíz del repositorio:
@@ -122,4 +126,4 @@ Declarado en [`DECLARACION_IA.md`](DECLARACION_IA.md).
 
 ## Equipo
 
-Isabella (datos y corpus) · Wendy (algoritmos) · Oriana (agente y RAG) · Ana (aplicación, integración y entrega).
+Isabella Cadavid · Wendy Atehortua
