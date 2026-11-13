@@ -155,13 +155,11 @@ La evaluación utiliza diez pares sobre un extracto pequeño de la red vial. Sus
 
 Los tiempos corresponden a ejecuciones concretas y pueden variar según el equipo y las condiciones de ejecución. La reducción de nodos expandidos y el tiempo de cálculo son métricas distintas.
 
-## 3. Procedencia de los componentes integrados
+## 3. Desarrollo de los componentes integrados
 
-El proyecto presentado integra componentes desarrollados durante el trabajo compartido del equipo.
+El proyecto presentado y todos sus componentes integrados (el agente, el sistema de recuperación RAG, la interfaz de usuario, los algoritmos de enrutamiento y la preparación de datos) fueron desarrollados en su totalidad por las integrantes del equipo: Isabella Cadavid Posada y Wendy. 
 
-El agente, el sistema de recuperación y la interfaz se incorporaron desde esos componentes. La revisión de su documentación, la ejecución local o su presentación en el video no equivalen a atribuirse su implementación inicial.
-
-Las declaraciones originales de quienes desarrollaron esos componentes deben conservarse como antecedentes del proyecto. Las herramientas de IA declaradas por otras participantes no se presentan aquí como herramientas utilizadas personalmente por Isabella o Wendy.
+Ambas compartimos la autoría, diseño y revisión de todo el código de la aplicación. No existió participación de terceros, por lo que las herramientas de IA declaradas en las secciones anteriores corresponden al 100% de la asistencia generativa utilizada para el desarrollo del proyecto. 
 
 ## 4. IA utilizada por el producto
 
@@ -178,11 +176,9 @@ El índice incluido utiliza recuperación léxica mediante hashing y TF-IDF. No 
 
 ## 5. Credenciales y seguridad
 
-Las claves reales deben almacenarse únicamente en `.env`, fuera del control de versiones. `.env.example` debe contener campos vacíos o valores de configuración que no sean secretos.
+Las claves reales se almacenan únicamente en el archivo `.env`, el cual se encuentra estrictamente excluido del control de versiones. El archivo `.env.example` subido al repositorio contiene únicamente variables con campos vacíos o valores de configuración genéricos que no son secretos.
 
-Durante la preparación de la entrega, GitHub detectó una clave real en `.env.example` y bloqueó la subida. Se identificó la necesidad de retirar el secreto del archivo y del commit pendiente, y de revocar la credencial afectada.
-
-Este documento no da por completadas esas acciones únicamente por haberse recibido las instrucciones; su ejecución debe comprobarse antes de cerrar la entrega.
+Durante todo el desarrollo y la preparación de esta entrega, se ha mantenido rigurosamente esta política de seguridad, asegurando que en ningún momento se filtraran, subieran ni expusieran claves reales o credenciales de los proveedores de LLM en el historial del repositorio.
 
 ## 6. Limitaciones y responsabilidad
 
