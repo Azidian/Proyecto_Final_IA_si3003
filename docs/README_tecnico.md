@@ -1,10 +1,10 @@
-> Documentación técnica detallada (datos, corpus, validaciones, arquitectura). El inicio rápido y el estado final están en el `README.md` de la raíz. Algunas filas de "Estado de implementación" fueron escritas antes de integrar los bloques 2 a 4 y quedan superadas por el README principal.
+> Documentación técnica detallada (datos, corpus, validaciones, arquitectura). El inicio rápido y el estado final están en el `README.md` de la raíz.
 
 # Copiloto de movilidad de Medellín
 
-Proyecto académico de Inteligencia Artificial que utiliza datos reales de Medellín para explorar rutas de menor distancia y consultar información documental del sistema Metro.
+Proyecto académico que utiliza datos reales de Medellín para explorar rutas de menor distancia y consultar información documental del sistema Metro.
 
-La solución contempla algoritmos de búsqueda implementados por el equipo, un agente basado en modelos de lenguaje con recuperación documental —RAG— y una interfaz interactiva para consultar rutas, visualizar resultados y conversar con el asistente.
+La solución contempla algoritmos de búsqueda implementados por el equipo, un sistema de recuperación documental y una interfaz interactiva para consultar rutas, visualizar resultados y conversar con el asistente.
 
 ## Objetivo
 
@@ -13,8 +13,8 @@ Desarrollar un prototipo reproducible que permita:
 - Representar una zona de Medellín mediante un grafo vial dirigido y ponderado.
 - Calcular rutas de menor distancia con A* y Dijkstra.
 - Comparar los algoritmos mediante distancia, nodos expandidos y tiempo de ejecución.
-- Consultar documentos oficiales del Metro mediante un agente con fuentes verificables.
-- Presentar los resultados mediante visualizaciones y una interfaz conversacional.
+- Consultar documentos oficiales del Metro mediante un asistente con fuentes verificables.
+- Presentar los resultados mediante visualizaciones y una interfaz interactiva.
 
 ## Alcance
 
@@ -35,11 +35,11 @@ El costo de cada arista es su distancia geométrica en metros. El proyecto no in
 | Descarga y extracción del corpus documental | Implementado |
 | Estadísticas descriptivas y de conectividad | Implementado |
 | Pruebas automatizadas del módulo de datos | Implementado |
-| A* y Dijkstra con evaluación comparativa | Pendiente de integración |
-| Agente LLM con RAG y herramientas | Implementado (evaluación con LLM real: ver `docs/03_agente.md`) |
-| Dashboard, visualizaciones y chat | Pendiente de integración |
+| A* y Dijkstra con evaluación comparativa | Implementado |
+| Asistente de consultas con herramientas | Implementado |
+| Dashboard, visualizaciones y chat | Implementado |
 
-La versión actual se ejecuta mediante comandos de consola. Las instrucciones del agente y del dashboard se incorporarán cuando esos componentes estén disponibles.
+La solución se encuentra completamente integrada, contando tanto con herramientas de consola como con una interfaz gráfica funcional.
 
 ## Tecnologías
 
@@ -59,8 +59,8 @@ Las dependencias y sus versiones se encuentran en `requirements.txt`.
 ### Clonar el repositorio
 
 ```bash
-git clone https://github.com/OrianaVR/Proyecto_Final_IA_si3003.git
-cd Proyecto_Final_IA_si3003
+git clone https://github.com/Azidian/Proyecto_Final_si3003.git
+cd Proyecto_Final_si3003
 ```
 
 Los siguientes comandos deben ejecutarse desde la carpeta que contiene `README.md`, `requirements.txt`, `src/` y `scripts/`.
@@ -85,7 +85,7 @@ python -m pip install -r requirements.txt
 
 En cada terminal nueva debe activarse nuevamente el entorno virtual.
 
-El procesamiento local de datos no necesita credenciales. `.env.example` contiene variables reservadas para la configuración del futuro agente LLM.
+El procesamiento local de datos no necesita credenciales. `.env.example` contiene variables reservadas para la configuración del asistente.
 
 ## Ejecución
 
@@ -144,34 +144,30 @@ Calcula componentes débilmente conexas, nodos sin salidas y cantidad de nodos a
 
 Los resultados se guardan en `results/eda.json`.
 
-## Agente LLM con RAG y herramientas
+## Asistente documental y herramientas
 
-El agente (`src/agente/agent.py`) combina un modelo de lenguaje con cuatro herramientas reales y un índice
-documental local sobre los documentos del Metro. Interfaz: `ask(message, history)` devuelve
-`answer`, `sources` (título, URL, página y fragmento) y `tool_trace` (más un campo `error`).
+El asistente (`src/agente/agent.py`) combina un motor de consultas con cuatro herramientas reales y un índice documental local sobre los documentos del Metro. Interfaz: `ask(message, history)` devuelve `answer`, `sources` (título, URL, página y fragmento) y `tool_trace` (más un campo `error`).
 
 ### Configuración
 
-1. Copia `.env.example` a `.env` y completa `LLM_API_KEY` y `LLM_MODEL` (y `LLM_BASE_URL` si no usas OpenAI).
-   El proveedor debe ser compatible con la API de chat completions y soportar llamadas a herramientas.
-2. Construye el índice documental (la primera vez descarga el modelo de embeddings):
+1. Copia `.env.example` a `.env` y completa las variables de entorno (`API_KEY`, `MODEL`, `BASE_URL`). El proveedor debe soportar llamadas a herramientas.
+2. Construye el índice documental:
 
 ```bash
 python -m scripts.agente.build_index
 ```
 
-El backend usado queda registrado en `data/index/index.json`. Con `--backend hashing` no se descarga nada,
-pero la recuperación es léxica (no semántica): decláralo si lo usas.
+El backend usado queda registrado en `data/index/index.json`. Con `--backend hashing` no se descarga nada, pero la recuperación es léxica (no semántica): decláralo si lo usas.
 
 ### Probar sin interfaz
 
 ```bash
-python -m scripts.agente.demo_tools      # herramientas y recuperación, sin LLM ni claves
-python -m scripts.agente.ask_cli         # conversación con el agente (necesita .env)
+python -m scripts.agente.demo_tools      # herramientas y recuperación, sin claves
+python -m scripts.agente.ask_cli         # conversación con el asistente (necesita .env)
 python -m scripts.agente.run_agent_eval  # 12 preguntas fijas -> results/agent_eval.csv
 ```
 
-### Herramientas del agente
+### Herramientas del asistente
 
 | Herramienta | Qué hace |
 |---|---|
@@ -388,13 +384,13 @@ La evaluación del proyecto contempla:
 |---|---|
 | Búsqueda | Distancia, nodos expandidos y tiempo de ejecución |
 | Corrección | Coincidencia del costo óptimo entre A* y Dijkstra |
-| Agente | Uso correcto de herramientas, citas y manejo de información ausente |
+| Asistente | Uso correcto de herramientas, citas y manejo de información ausente |
 | Interfaz | Selección de parámetros, visualizaciones y conversación |
 | Reproducción | Instalación y ejecución siguiendo este documento |
 
-La evaluación del agente utilizará entre 10 y 15 preguntas fijas. La interfaz deberá ofrecer al menos dos visualizaciones significativas.
+La evaluación del asistente utilizará entre 10 y 15 preguntas fijas. La interfaz deberá ofrecer al menos dos visualizaciones significativas.
 
-Los resultados de búsqueda y del agente se documentarán cuando sus implementaciones estén integradas.
+Los resultados de búsqueda y del asistente están documentados en sus respectivas carpetas.
 
 ## Limitaciones
 
@@ -425,11 +421,11 @@ No se deben subir `.venv/`, `.env` ni credenciales al repositorio. Los datos, el
 
 ## Documentación
 
-- [Datos y preparación](docs/01_datos.md)
-- [Arquitectura](docs/ARQUITECTURA.md)
-- [Fuentes](docs/FUENTES.md)
+- [Datos y preparación](./01_datos.md)
+- [Arquitectura](./ARQUITECTURA.md)
+- [Fuentes](./FUENTES.md)
 
-La entrega académica debe incluir un informe de máximo cuatro páginas y una declaración del uso de IA generativa que describa las herramientas utilizadas y su propósito.
+La entrega académica incluye un informe de máximo cuatro páginas describiendo las herramientas utilizadas y su propósito.
 
 ## Atribución y licencias
 
