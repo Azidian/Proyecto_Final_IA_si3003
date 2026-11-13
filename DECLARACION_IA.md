@@ -1,111 +1,195 @@
 # Declaración de uso de IA generativa
 
-Proyecto final SI3003 – Copiloto de movilidad de Medellín. Cada integrante declara las herramientas de IA
-generativa que usó y para qué, conforme al pacto pedagógico. Cada declaración la redacta y responde su autora.
+**Proyecto:** Copiloto de movilidad de Medellín  
+**Asignatura:** SI3003 – Inteligencia Artificial  
+**Integrantes que presentan esta declaración:** Isabella Cadavid Posada y Wendy
 
-## 1. Isabella: datos y corpus
+Este documento describe las herramientas de IA generativa utilizadas por cada declarante, sus propósitos y las comprobaciones realizadas personalmente.
 
-> **PENDIENTE.** Isabella debe aportar `docs/ia_isabella.md` (herramienta(s) de IA usada(s), propósito, qué
-> verificó personalmente). Al momento de cerrar este documento no existe en ninguna rama del repositorio.
+La asistencia de IA incluyó explicaciones, generación de código, preparación de pruebas, documentación y diagnóstico de errores. Su utilización no sustituye la responsabilidad de comprender el trabajo presentado ni la revisión de sus resultados.
 
+## 1. Isabella Cadavid Posada
 
-## 1. Isabella: datos y corpus
+### 1.1 Herramienta utilizada
 
-**Herramienta:** ChatGPT con Codex, como asistente de explicación, programación y documentación.
+**ChatGPT con Codex**, como asistente de explicación, programación, documentación y diagnóstico.
 
-**Para qué lo usé:**
+### 1.2 Propósitos de uso
 
-- Recibir explicaciones sobre la organización del proyecto, la representación de la red vial mediante nodos y aristas y la separación entre datos geográficos y corpus documental.
-- Apoyar la generación y organización del código para descargar, preparar y cargar los datos de OpenStreetMap, así como extraer el texto de los documentos oficiales del Metro.
-- Preparar pruebas automatizadas y comprender sus resultados.
-- Diagnosticar una diferencia de precisión numérica entre entornos que hacía fallar la comparación de archivos reconstruidos y ajustar la prueba para comparar las distancias con una tolerancia.
-- Elaborar borradores del README, la descripción de los datos, las fuentes y las limitaciones.
-- Recibir orientación para configurar el entorno virtual y utilizar Git y GitHub.
+Utilicé la herramienta para:
 
-**Qué verifiqué personalmente:**
+- Recibir explicaciones sobre la representación de la red vial mediante nodos, aristas, coordenadas y distancias.
+- Proponer una estructura de código que separara dominio, casos de uso y adaptadores de infraestructura.
+- Apoyar la generación y organización del código de descarga, transformación y carga de los datos de OpenStreetMap.
+- Preparar la extracción de texto de los documentos oficiales del Metro de Medellín, conservando su procedencia.
+- Generar pruebas automatizadas y comprender sus resultados.
+- Diagnosticar una diferencia de precisión numérica entre entornos y ajustar la comparación de las distancias reconstruidas.
+- Elaborar y revisar borradores del README, los informes técnicos, las fuentes y las limitaciones.
+- Configurar el entorno virtual de Python y recibir orientación sobre Git y GitHub.
+- Ejecutar la aplicación integrada y comprender sus controles, métricas y funcionamiento documental.
+- Configurar el proveedor LLM y diagnosticar un error de certificados HTTPS en macOS.
+- Preparar el guion de la demostración del proyecto.
 
-- Creé el entorno virtual e instalé las dependencias en mi Mac.
-- Ejecuté `python -m scripts.demo_data` y comprobé la carga de **696 nodos y 858 aristas dirigidas**.
-- Ejecuté `python -m scripts.validate` y confirmé el resultado **`status: ok`**, con **10 pares de prueba y 4 documentos**.
-- Ejecuté los comandos de preparación de datos, extracción del corpus y análisis descriptivo, comprobando que finalizaran correctamente y produjeran **23 registros documentales y 9.287 palabras extraídas**.
-- Volví a ejecutar la suite después del ajuste de precisión y confirmé que las **13 pruebas finalizaran con `OK`**.
+La asistencia incluyó generación de código y textos; no se limitó a correcciones de estilo.
 
-**Fuentes y límites:** los datos geográficos proceden de OpenStreetMap y los documentos del sitio oficial del Metro de Medellín; no fueron inventados por la herramienta. Las verificaciones realizadas comprueban la carga, integridad y reproducción de los datos, pero no garantizan la exactitud de todas las vías ni la vigencia de todas las disposiciones documentales. El código y los textos generados con asistencia de IA requieren revisión y comprensión; las pruebas de este componente no evalúan los algoritmos de rutas, el agente ni la interfaz.
+### 1.3 Procedencia de los datos
 
+Los datos geográficos se obtuvieron de OpenStreetMap y los documentos del corpus proceden del sitio oficial del Metro de Medellín.
 
-## 2. Wendy: algoritmos de enrutamiento
+Se conservaron los originales y los registros de procedencia, incluyendo fuentes y hashes. No se generaron coordenadas ni documentos sintéticos para reemplazar datos reales.
 
-(Transcrito de `docs/ia_wendy.md`, escrito por Wendy.)
+OpenStreetMap es una fuente abierta colaborativa. Los documentos del Metro son materiales institucionales oficiales y conservan su autoría.
 
+### 1.4 Comprobaciones personales de datos y corpus
 
-### 2.1 Herramienta y Propósito
+Creé y activé el entorno virtual en mi Mac e instalé las dependencias del proyecto.
 
-Para el desarrollo de los **Algoritmos de Enrutamiento Vial**, utilicé un modelo de lenguaje (Gemini) como asistente de sintaxis y productividad, manteniendo el control, la revisión y la validación de la lógica implementada.
+Ejecuté personalmente:
 
-La herramienta se utilizó con los siguientes propósitos específicos:
-- **Aceleración de código base:** Apoyo con la sintaxis nativa de Python para el manejo de colas de prioridad (`heapq`) en A* y Dijkstra, garantizando el cumplimiento de la restricción de no usar librerías de enrutamiento como NetworkX u OSMnx.
-- **Estructuración de pruebas:** Generación del esqueleto de las pruebas unitarias (`tests/test_routing.py`), definiendo los casos de rutas vacías y nodos inexistentes.
-- **Formato de datos:** Asistencia para estructurar el script de exportación de métricas a formato CSV (`evaluate_routes.py`).
-- **Redacción técnica:** Revisión de estilo y gramática para la explicación de admisibilidad de la heurística en el informe (`docs/02_modelo.md`).
+```bash
+python -m scripts.demo_data
+python -m scripts.validate
+python -m unittest discover -s tests -v
+```
 
----
+Comprobé:
 
-### 2.2 Decisiones Técnicas y Lógica Implementada
+- La carga de **696 nodos y 858 aristas dirigidas**.
+- La validación de **10 pares de origen y destino**.
+- La disponibilidad de **cuatro documentos**.
+- El resultado **`status: ok`** del validador.
+- La aprobación de las **13 pruebas del componente de datos**, después del ajuste de precisión numérica.
 
-1. **Definición Rigurosa de "Nodo Expandido":**  
-   Se definió y documentó que un nodo cuenta como expandido únicamente al ser extraído de la cola de prioridad (`heapq.heappop`) y procesarse sus aristas salientes. Se evitó el sesgo común de contabilizar inserciones o entradas obsoletas en la cola.
-2. **Desempate en Cola de Prioridad:**  
-   Se implementó un contador entero incremental (`entry_counter`) en las tuplas encoladas `(f_score, counter, node_id)`. Esto evita fallos de comparación de tipos entre identificadores o nodos en casos de empates numéricos de costos y mantiene estabilidad determinista.
-3. **Admisibilidad de la Heurística:**  
-   Se integró la función de dominio geodésico `src.domain.geo.haversine_m` como la función $h(n)$. Al ser la distancia euclidiana sobre la superficie esférica una cota inferior no sobreestimable frente a cualquier trayecto vial curvo y canalizado, se asegura la admisibilidad teórica y la optimalidad del resultado.
-4. **Cumplimiento Estricto del Contrato de Datos:**  
-   Se implementó `plan_route` garantizando las llaves exactas solicitadas (`status`, `path`, `distance_m`, `expanded_nodes`, `elapsed_ms`, `error`), controlando explícitamente rutas inexistentes, nodos inválidos, origen igual a destino (costo 0.0) y algoritmos no reconocidos.
+También ejecuté:
 
----
+```bash
+python -m scripts.prepare_data
+python -m scripts.prepare_corpus
+python -m scripts.describe_data
+```
 
-### 2.3 Verificaciones y Validación Realizada Personalmente
+Confirmé que finalizaran correctamente y que el corpus produjera **23 registros documentales y 9.287 palabras extraídas**. Posteriormente repetí las pruebas y la validación con resultados correctos.
 
-Como estudiante responsable del bloque, verifiqué personalmente todo el código y artefactos generados mediante las siguientes acciones:
+La comparación de reconstrucción utiliza una tolerancia absoluta de `1e-8` metros para las distancias. Mantiene las comprobaciones de identificadores, topología, metadatos y pares de prueba.
 
-- **Ejecución de Pruebas Unitarias:**  
-  Ejecuté la suite completa `python -m unittest tests/test_routing.py -v`, verificando con éxito los 7 casos de prueba (equivalencia exacta de costos A* vs. Dijkstra en los 10 pares, casos extremos de origen igual a destino, nodos fantasma, algoritmos inválidos y grafos desconectados).
-- **Inspección de Resultados Experimentales:**  
-  Ejecuté `python scripts/evaluate_routes.py` y verifiqué fila por fila el archivo `results/routes.csv`, corroborando que en todos los pares evaluados `same_optimal_distance == True`, con un ahorro de expansiones de hasta un 62.08% a favor de A*.
-- **Revisión de Código Línea por Línea:**  
-  Inspeccioné el código en `src/routing.py` comprobando que no existieran dependencias no permitidas, que la reconstrucción del camino mediante el diccionario de predecesores fuera correcta y que las mediciones de tiempo (`perf_counter`) no tuvieran sobrecostos artificiales.
+### 1.5 Comprobación de la aplicación y del RAG
 
----
+Inicié la aplicación mediante:
 
-## 3. Oriana: agente y RAG
+```bash
+python -m streamlit run app.py
+```
 
-> **PENDIENTE.** Oriana debe aportar `docs/ia_oriana.md` (herramienta(s) de IA usada(s) para el agente, el RAG y la
-> evaluación, propósito, qué verificó personalmente). Al momento de cerrar este documento no existe en ninguna rama.
->
-> Nota factual para su sección: el agente usa un modelo de lenguaje en tiempo de ejecución como parte del producto
-> (ver `docs/03_agente.md` y `docs/verificacion_final.md`); eso es distinto de las herramientas de IA usadas para escribir el código.
+Configuré localmente el proveedor Groq mediante las variables `LLM_API_KEY`, `LLM_BASE_URL` y `LLM_MODEL`, utilizando el modelo `openai/gpt-oss-120b`.
 
-## 4. Ana: aplicación, integración y entrega
+Durante la configuración recibí apoyo para diagnosticar el error `SSL: CERTIFICATE_VERIFY_FAILED` y reparar los certificados de Python sin desactivar la verificación HTTPS.
 
-**Herramienta:** Claude Code (modelo Claude Sonnet 5.5, de Anthropic), como asistente de programación en mi equipo.
+Realicé la consulta:
 
-**Para qué lo usé:**
-- Revisar el repositorio recibido y comprobar los contratos entre bloques (`scripts/check_contracts.py`).
-- Escribir el borrador de la aplicación Streamlit (`app.py`), el README final, `requirements.txt` consolidado y
-  `docs/verificacion_final.md`.
-- Diagnosticar fallas de integración: el error HTTP 403 del proveedor por el `User-Agent`, las citas con caracteres
-  invisibles o de ancho completo que dejaban vacía la lista de fuentes, y la falla de dos pruebas por la conversión
-  de saltos de línea (CRLF) en Windows.
-- Ejecutar la evaluación del agente de Oriana con mi clave y mi proveedor (`results/agent_eval.csv`).
-- Ayudar a unir los textos del informe.
+> ¿Qué condiciones debo cumplir para ingresar con mi mascota al Metro de Medellín? Responde según los documentos disponibles y cita las fuentes.
 
-**Cambios en código de otras integrantes, con mi aprobación:** una línea de `src/agent/agent.py` (expresión regular de
-citas, ahora tolerante a espacios de ancho cero y corchetes de ancho completo) y un `.gitattributes` para que Git no
-convierta a CRLF los datos crudos, cuyo hash está registrado. Ambos quedan documentados en `docs/verificacion_final.md`.
+Observé la respuesta, sus referencias y la traza de herramientas. Comprobé que se utilizó `search_documents`, con una consulta relacionada con mascotas y un resultado de estado `ok`.
 
-**Qué verifiqué yo personalmente:** abrí la aplicación en el navegador, comprobé el mapa, los gráficos, la tabla y el
-chat con preguntas de ruta, del Metro y de información ausente, y revisé que los números coincidieran con
-`results/routes.csv`. Proporcioné la clave del proveedor (guardada solo en `.env`, fuera de Git) y decidí los cambios
-anteriores.
+Esta comprobación demuestra el funcionamiento observado en esa consulta; no garantiza que todas las respuestas del agente sean correctas.
 
-**Límites:** el asistente no sustituye la comprensión del trabajo; las respuestas del LLM en tiempo de ejecución
-pueden contener errores y deben contrastarse con las fuentes citadas.
+### 1.6 Límites de mi revisión
+
+Mi revisión incluyó la preparación y carga de datos, la ejecución de comandos, la comprobación de resultados y una consulta documental desde la aplicación.
+
+No realicé un cotejo página por página de todo el corpus. Los hashes permiten verificar integridad, pero no certifican la exactitud, fidelidad completa o vigencia del contenido.
+
+Las 13 pruebas mencionadas corresponden al componente de datos y no deben presentarse como una evaluación completa del agente, los algoritmos y la interfaz.
+
+## 2. Wendy
+
+### 2.1 Herramienta utilizada
+
+**Gemini**, como asistente de sintaxis, programación y redacción técnica.
+
+### 2.2 Propósitos de uso
+
+Utilicé la herramienta para:
+
+- Recibir apoyo con la sintaxis de Python y el manejo de colas de prioridad mediante `heapq`.
+- Preparar código de apoyo para A* y Dijkstra, respetando la restricción de no delegar el enrutamiento a NetworkX u OSMnx.
+- Generar la estructura inicial de las pruebas de rutas y sus casos de error.
+- Estructurar la exportación de métricas a CSV.
+- Revisar la redacción de la explicación de la heurística y los resultados experimentales.
+
+La asistencia se utilizó como apoyo al desarrollo; las decisiones y comprobaciones descritas a continuación forman parte de mi revisión del componente.
+
+### 2.3 Decisiones técnicas revisadas
+
+**Conteo de nodos expandidos.** Se definió como expandido un nodo cuando se extrae de la cola y se examinan sus aristas salientes. Las inserciones y las entradas obsoletas no se contabilizan como expansiones adicionales.
+
+**Desempate en la cola.** Se incorporó un contador incremental en las entradas para mantener un criterio de desempate estable.
+
+**Heurística.** A* utiliza `src.domain.geo.haversine_m` para estimar la distancia restante al destino. Como las aristas también tienen costos calculados mediante haversine, la desigualdad triangular permite justificar que esta estimación no sobreestima el costo de un recorrido por el grafo.
+
+**Contrato de respuesta.** Se verificó que `plan_route` devolviera los campos:
+
+- `status`
+- `path`
+- `distance_m`
+- `expanded_nodes`
+- `elapsed_ms`
+- `error`
+
+También se contemplaron nodos inexistentes, ausencia de ruta, origen igual a destino y algoritmos no reconocidos.
+
+### 2.4 Comprobaciones personales declaradas
+
+Según mi registro de trabajo:
+
+- Ejecuté las siete pruebas del componente de enrutamiento, incluyendo la comparación de costos entre A* y Dijkstra y los casos de error.
+- Ejecuté el script de evaluación e inspeccioné `results/routes.csv`.
+- Comprobé que los diez pares evaluados registraran `same_optimal_distance == True`.
+- Revisé la implementación de la cola de prioridad, la reconstrucción de caminos y la medición con `perf_counter`.
+- Comprobé que el cálculo de rutas no dependiera de bibliotecas que resolvieran los algoritmos por el equipo.
+
+Los resultados registrados muestran una reducción de nodos expandidos con A* de hasta **62,08 %**. Este resultado no implica que A* sea más rápido en todas las ejecuciones.
+
+### 2.5 Límites de la evaluación
+
+La evaluación utiliza diez pares sobre un extracto pequeño de la red vial. Sus resultados no demuestran el mismo comportamiento para todos los recorridos de Medellín.
+
+Los tiempos corresponden a ejecuciones concretas y pueden variar según el equipo y las condiciones de ejecución. La reducción de nodos expandidos y el tiempo de cálculo son métricas distintas.
+
+## 3. Procedencia de los componentes integrados
+
+El proyecto presentado integra componentes desarrollados durante el trabajo compartido del equipo.
+
+El agente, el sistema de recuperación y la interfaz se incorporaron desde esos componentes. La revisión de su documentación, la ejecución local o su presentación en el video no equivalen a atribuirse su implementación inicial.
+
+Las declaraciones originales de quienes desarrollaron esos componentes deben conservarse como antecedentes del proyecto. Las herramientas de IA declaradas por otras participantes no se presentan aquí como herramientas utilizadas personalmente por Isabella o Wendy.
+
+## 4. IA utilizada por el producto
+
+El uso de IA durante el desarrollo se distingue del modelo que funciona dentro de la aplicación.
+
+| Uso | Descripción |
+|---|---|
+| Asistencia al desarrollo | Explicaciones, código, pruebas, documentación y diagnóstico mediante las herramientas declaradas por cada participante |
+| Modelo en ejecución | Proveedor LLM configurado en `.env`, utilizado por el agente para generar respuestas y solicitar herramientas |
+| Recuperación documental | Consulta del índice local para proporcionar fragmentos del corpus como contexto |
+| Cálculo de rutas | Ejecución de A* y Dijkstra sobre el grafo, sin delegar los cálculos al modelo de lenguaje |
+
+El índice incluido utiliza recuperación léxica mediante hashing y TF-IDF. No se declara como un índice de embeddings semánticos.
+
+## 5. Credenciales y seguridad
+
+Las claves reales deben almacenarse únicamente en `.env`, fuera del control de versiones. `.env.example` debe contener campos vacíos o valores de configuración que no sean secretos.
+
+Durante la preparación de la entrega, GitHub detectó una clave real en `.env.example` y bloqueó la subida. Se identificó la necesidad de retirar el secreto del archivo y del commit pendiente, y de revocar la credencial afectada.
+
+Este documento no da por completadas esas acciones únicamente por haberse recibido las instrucciones; su ejecución debe comprobarse antes de cerrar la entrega.
+
+## 6. Limitaciones y responsabilidad
+
+Los datos y documentos proceden de fuentes identificadas, pero pueden contener errores, omisiones o información histórica.
+
+Las pruebas automatizadas no garantizan por sí solas la comprensión del código, la vigencia documental ni la corrección de todas las respuestas del agente.
+
+Las citas permiten rastrear fragmentos recuperados; no certifican automáticamente que una interpretación sea correcta. Las respuestas deben contrastarse con las fuentes cuando sea necesario.
+
+Cada declarante es responsable de que su sección refleje las herramientas que realmente utilizó, las acciones que ejecutó y el alcance de sus comprobaciones. La asistencia de IA no sustituye esa responsabilidad.
