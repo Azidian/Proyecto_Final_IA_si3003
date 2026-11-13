@@ -1,4 +1,4 @@
-# Informe Técnico: Algoritmos de Enrutamiento Vial (Bloque 2 - Wendy)
+# Informe Técnico: Algoritmos de Enrutamiento Vial
 
 ## 1. Contexto y Formulación del Problema
 
